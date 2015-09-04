@@ -14,12 +14,7 @@ function start(route, handle){
     var pathname = url.parse(request.url).pathname;
     console.log("Request for " + pathname + " received."); //Printed when we request our server. 
                                       //Maybe output twice b/c most browsers try to load the favicon
-    //route(handle, pathname); //Pass the handle object on to the route() callback
-
-    response.writeHead(200, {"Content-Type": "text/plain"});
-    var content = route(handle, pathname);
-    response.write("Hello World");
-    response.end();
+    route(handle, pathname, response); //Pass the handle object on to the route() callback
   }
   
   http.createServer(onRequest).listen(8888);
