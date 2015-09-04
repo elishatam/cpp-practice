@@ -8,5 +8,6 @@ var handle = {}
 handle["/"] = requestHandlers.start; //map a different URL to the same request handler.
 handle["/start"] = requestHandlers.start; // requests to /start will be handled by the start handler
 handle["/upload"] = requestHandlers.upload;
+handle["/show"] = requestHandlers.show;
 
 server.start(router.route, handle);
