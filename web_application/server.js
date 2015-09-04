@@ -10,11 +10,24 @@ var url = require("url"); //provides the methods to extract different parts of a
 //The start function lets us pass the route function by parameter. The handle object is also passed.
 function start(route, handle){
   function onRequest(request, response){ //request and response = objects
+    var postData = "";
     //Can now distinguish requests based on the URL path requested
     var pathname = url.parse(request.url).pathname;
     console.log("Request for " + pathname + " received."); //Printed when we request our server. 
                                       //Maybe output twice b/c most browsers try to load the favicon
-    route(handle, pathname, response); //Pass the handle object on to the route() callback
+    request.setEncoding("utf8"); //We defined we expect the encoding of the received data to be UTF-8
+
+    request.addListener("data", function(postDataChunk) { //Added an event listener for the "data" event
+      postData += postDataChunk; //data fills step by step whenever a new chunk of POST data arrives
+      console.log("Received POST data chunk '"+ postDataChunk + "'.");
+    });
+   
+    //router is now only called when all POST data is gathered
+    //Pass the POST data into the router because our request handlers will need it.
+    request.addListener("end", function() { 
+      route(handle, pathname, response, postData); //Pass the handle object on to the route() callback
+    });
+
   }
   
   http.createServer(onRequest).listen(8888);
