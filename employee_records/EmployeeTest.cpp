@@ -4,7 +4,7 @@
 
 using namespace std;
 using namespace Records;
-
+/*
 int main()
 {
 	cout << "Testing the Employee class." << endl;
@@ -22,4 +22,4 @@ int main()
 
 	return 0;
 }
-
+*/
